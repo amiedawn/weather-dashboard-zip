@@ -21,16 +21,16 @@
     <div class="col-12 col-md-4">
       <div class="card">
         <form id="input-search" class="card-body">
-          <h3 class="card-header"> Search for a City:</h3>
+          <h3 class="card-header"> Search for a city by zip code:</h3>
           <div class="search-line">
-            <input name="city" id="city" type="text" class="form-input" />
+            <input name="zip" id="zip" type="text" class="form-input" />
             <button type="submit" class="btn">
               <i class="fas fa-search-plus"></i>
               <!--<p>Search</p>-->
             </button>
           </div>
 
-          <div class="city-container">
+          <div class="zip-container">
             <div class="row">
               <div class="col-12 col-md-12">
                 <ul id="search-history" class="list-group">
@@ -45,14 +45,14 @@
 
     <div class="col-12 col-md-8">
       <div class="current-card d-none"> <!-- d-none hides the frame on load-->
-        <!-- generate current information for selected city-->
+        <!-- generate current information for selected zip code-->
           <h2 class="subtitle">
-            <span id="city-search-term"></span>
+            <span id="zip-search-term"></span>
             <span id="currentDay" class="date"></span>
             <span><img class="icon" /></span>
           </h2>
           <div class="current-info">
-            <div class="city"></div>
+            <div class="zip"></div>
             <div class="temp"></div>
             <div class="humidity"></div>
             <div class="wind"></div>

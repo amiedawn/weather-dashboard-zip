@@ -1,6 +1,6 @@
 var inputSearchEl = document.querySelector("#input-search");
-var cityInputEl = document.querySelector("#city");
-var cityContainerEl = document.querySelector("#city-container");
+var zipInputEl = document.querySelector("#zip");
+var zipContainerEl = document.querySelector("#zip-container");
 var apiKey = "975f21cfd36254818b964487770790a3";
 var persist1 = JSON.parse(localStorage.getItem("persist1")) || [];
 
@@ -8,18 +8,18 @@ var searchSubmitHandler = function (event) {
   event.preventDefault();
 
   // get value from input element
-  var city = cityInputEl.value.trim();
+  var zip = zipInputEl.value.trim();
 
-  if (city) {
-    collectWeatherInfo(city);
+  if (zip) {
+    collectWeatherInfo(zip);
   } else {
-    alert("Please enter a city you would like to know the weather for.");
+    alert("Please enter a zip code you would like to know the weather for.");
   }
 };
 
-var collectWeatherInfo = function (city) {
+var collectWeatherInfo = function (zip) {
 var apiUrlDaily =
-  "https://api.openweathermap.org/data/2.5/weather?zip=" + city + ",us&appid=" + apiKey +
+  "https://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&appid=" + apiKey +
   "&units=imperial"
 
 
@@ -70,7 +70,7 @@ var apiUrlDaily =
       $(".badge").display = "none"; // hide badges on page load
 
       // format header of current day
-      $(".city").html("<h1>" + data.name + " (" + today + ")" + "</h1>");
+      $(".zip").html("<h1>" + data.name + " (" + today + ")" + "</h1>");
       $(".icon").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png");
 
       // format rest of current day
@@ -78,7 +78,7 @@ var apiUrlDaily =
       $(".humidity").text("Humidity: " + data.main.humidity + "%");
       $(".wind").text("Wind Speed: " + data.wind.speed + " MPH");
 
-      var api5Day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial" + "&appid=" + apiKey;
+      var api5Day = "https://api.openweathermap.org/data/2.5/forecast?q=" + zip + "&units=imperial" + "&appid=" + apiKey;
 
       // fetch for 5-day forecast
       fetch(api5Day)
@@ -133,7 +133,7 @@ var apiUrlDaily =
         })
 
         .catch(function (error) {
-          // if you try to search for a city that doesn't exist
+          // if you try to search for a zip code that doesn't exist
           alert("Error: " + response.statusText);
         });
     });
@@ -149,8 +149,8 @@ function displaySearchHistory() {
   }
   let unique_cities = [...new Set(persist1)];
   for (var i = 0; i < unique_cities.length; i++) {
-    let cityName = unique_cities[i];
-    // let instead of var allows to the city clicked, not just the latest one
+    let zipName = unique_cities[i];
+    // let instead of var allows to the zip code clicked, not just the latest one
     let listItem = $('<li class="list-group-item">' + persist1[i] + "</li>");
     $("#search-history").append(listItem);
     listItem.addClass("active");
@@ -162,26 +162,10 @@ function displaySearchHistory() {
   }
 };
 
-// function displaySearchHistory() {
-//   $("#search-history").empty();
-  
-//   for (var i = 0; i < persist1.length; i++) {
-//     // let instead of var allows to the city clicked, not just the latest one
-//     let listItem = $('<li class="list-group-item">' + persist1[i] + "</li>");
-//     $("#search-history").append(listItem);
-//     listItem.addClass("active");
-    
-//     // allows click for list
-//     $(listItem).on("click", function() {
-//     collectWeatherInfo(listItem.text());
-//     })
-//   }
-// };
-
   displaySearchHistory();
   if (persist1[0]) {
     collectWeatherInfo(persist1[0]);
   }
 
-  // set city to kickoff weather search determined by city entered
+  // set zip code to kickoff weather search determined by zip code entered
   inputSearchEl.addEventListener("submit", searchSubmitHandler);
